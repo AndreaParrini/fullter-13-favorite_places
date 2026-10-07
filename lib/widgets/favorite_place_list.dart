@@ -12,6 +12,15 @@ class FavoritePlaceList extends StatelessWidget {
     return ListView.builder(
       itemCount: favoritePlaces.length,
       itemBuilder: (ctx, index) => ListTile(
+        leading: CircleAvatar(
+          radius: 26,
+          backgroundImage: FileImage(favoritePlaces[index].image),
+        ),
+        title: Text(
+          favoritePlaces[index].title,
+          style: Theme.of(context).textTheme.titleMedium!
+              .copyWith(color: Theme.of(context).colorScheme.onSurface),
+        ),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -20,11 +29,6 @@ class FavoritePlaceList extends StatelessWidget {
             ),
           );
         },
-        title: Text(
-          favoritePlaces[index].title,
-          style: Theme.of(context).textTheme.titleMedium!
-              .copyWith(color: Theme.of(context).colorScheme.onSurface),
-        ),
       ),
     );
   }
