@@ -155,12 +155,19 @@ class _LocationInputState extends State<LocationInput> {
         ),
         children: [
           TileLayer(
-            urlTemplate:
-                'https://{s}.google.com/vt/lyrs=m&hl={hl}&x={x}&y={y}&z={z}',
-            additionalOptions: const {'hl': 'en'},
-            subdomains: const ['mt0', 'mt1', 'mt2', 'mt3'],
+            // Tile di OpenStreetMap, il server consigliato da flutter_map. L'URL
+            // mt*.google.com/vt non è un servizio pubblico per app di terze parti e
+            // a volte risponde 500, mandando in errore il caricamento delle tile.
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            // Richiesto dalla policy di OpenStreetMap per identificare l'app:
+            // senza, le richieste possono essere bloccate.
+            userAgentPackageName: 'com.example.favorite_places',
             tileProvider: NetworkTileProvider(
               cachingProvider: const DisabledMapCachingProvider(),
+              // Una tile che non arriva resta vuota invece di lanciare
+              // un'eccezione: in debug l'eccezione fermava il debugger sul thread
+              // principale e Android mostrava "isn't responding".
+              silenceExceptions: true,
             ),
           ),
           MarkerLayer(
