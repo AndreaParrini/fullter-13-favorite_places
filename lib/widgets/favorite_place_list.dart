@@ -22,7 +22,8 @@ class FavoritePlaceList extends StatelessWidget {
         },
         title: Text(
           favoritePlaces[index].title,
-          style: TextTheme.of(context).titleMedium,
+          style: Theme.of(context).textTheme.titleMedium!
+              .copyWith(color: Theme.of(context).colorScheme.onSurface),
         ),
       ),
     );

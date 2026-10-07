@@ -10,7 +10,11 @@ class FavoritePlacesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Widget mainContent = Center(
-      child: Text('No places yet'),
+      child: Text(
+        'No places yet',
+        style: Theme.of(context).textTheme.bodyLarge!
+            .copyWith(color: Theme.of(context).colorScheme.onSurface),
+      ),
     );
 
     final favoritePlaces = ref.watch(favoritePlacesProvider);

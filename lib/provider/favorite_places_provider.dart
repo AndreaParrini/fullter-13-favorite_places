@@ -1,5 +1,6 @@
-import 'package:favorite_places/models/place.dart';
 import 'package:flutter_riverpod/legacy.dart';
+
+import 'package:favorite_places/models/place.dart';
 
 class FavoritePlacesNotifier extends StateNotifier<List<Place>> {
   FavoritePlacesNotifier() : super([]);
@@ -10,8 +11,8 @@ class FavoritePlacesNotifier extends StateNotifier<List<Place>> {
 }
 
 final favoritePlacesProvider =
-    StateNotifierProvider<FavoritePlacesNotifier, List<Place>>((
-      ref,
-    ) {
-      return FavoritePlacesNotifier();
-    });
+    StateNotifierProvider<FavoritePlacesNotifier, List<Place>>(
+      (
+        ref,
+      ) => FavoritePlacesNotifier(),
+    );

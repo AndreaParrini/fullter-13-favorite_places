@@ -28,7 +28,9 @@ final theme = ThemeData().copyWith(
 
 void main() {
   runApp(
-    const MyApp(),
+    ProviderScope(
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -37,12 +39,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
-      child: MaterialApp(
-        title: 'Great Places',
-        theme: theme,
-        home: FavoritePlacesScreen(),
-      ),
+    return MaterialApp(
+      title: 'Great Places',
+      theme: theme,
+      home: FavoritePlacesScreen(),
     );
   }
 }
