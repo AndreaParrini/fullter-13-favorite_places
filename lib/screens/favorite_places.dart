@@ -4,11 +4,26 @@ import 'package:favorite_places/widgets/favorite_place_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FavoritePlacesScreen extends ConsumerWidget {
+class FavoritePlacesScreen extends ConsumerStatefulWidget {
   const FavoritePlacesScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<FavoritePlacesScreen> createState() {
+    return _FavoritePlacesScreenState();
+  }
+}
+
+class _FavoritePlacesScreenState extends ConsumerState<FavoritePlacesScreen> {
+  late Future<void> _placesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _placesFuture = ref.read(favoritePlacesProvider.notifier).loadPlaces();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     Widget mainContent = Center(
       child: Text(
         'No places yet',
@@ -21,8 +36,15 @@ class FavoritePlacesScreen extends ConsumerWidget {
 
     if (favoritePlaces.isNotEmpty) {
       mainContent = Center(
-        child: FavoritePlaceList(
-          favoritePlaces: favoritePlaces,
+        child: FutureBuilder(
+          future: _placesFuture,
+          builder: (context, asyncSnapshot) {
+            return asyncSnapshot.connectionState == ConnectionState.waiting
+                ? const Center(child: CircularProgressIndicator())
+                : FavoritePlaceList(
+                    favoritePlaces: favoritePlaces,
+                  );
+          },
         ),
       );
     }
